@@ -11,6 +11,8 @@ function ScreenSource(props) {
   const [selectedLang, setSelectedLang] = useState(props.selectedLang)
 
 
+    {console.log(props)}
+
   useEffect(() => {
     const APIResultsLoading = async() => {
       var langue = 'fr'
@@ -62,7 +64,7 @@ function ScreenSource(props) {
 }
 
 function mapStateToProps(state){
-  return {selectedLang: state.selectedLang}
+  return {selectedLang: state.selectedLang, token:state.token}
 }
 
 function mapDispatchToProps(dispatch){

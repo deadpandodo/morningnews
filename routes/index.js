@@ -8,6 +8,7 @@ var uid2 = require('uid2')
 var bcrypt = require('bcrypt');
 
 var userModel = require('../models/users')
+var wishListArticleModel = require('../models/article')
 
 
 router.post('/sign-up', async function(req,res,next){
@@ -42,16 +43,16 @@ router.post('/sign-up', async function(req,res,next){
       password: hash,
       token: uid2(32),
     })
-  
+
     saveUser = await newUser.save()
-  
-    
+
+
     if(saveUser){
       result = true
       token = saveUser.token
     }
   }
-  
+
 
   res.json({result, saveUser, error, token})
 })
@@ -62,7 +63,7 @@ router.post('/sign-in', async function(req,res,next){
   var user = null
   var error = []
   var token = null
-  
+
   if(req.body.emailFromFront == ''
   || req.body.passwordFromFront == ''
   ){
@@ -73,8 +74,8 @@ router.post('/sign-in', async function(req,res,next){
     user = await userModel.findOne({
       email: req.body.emailFromFront,
     })
-  
-    
+
+
     if(user){
       if(bcrypt.compareSync(req.body.passwordFromFront, user.password)){
         result = true
@@ -83,16 +84,31 @@ router.post('/sign-in', async function(req,res,next){
         result = false
         error.push('mot de passe incorrect')
       }
-      
+
     } else {
       error.push('email incorrect')
     }
   }
-  
+
 
   res.json({result, user, error, token})
 
 
+})
+
+
+router.post('/add-article-in-wishlist',async function(req,res,next){
+  let newArticleInWishlist = await wishListArticleModel({
+     title:req.body.titleFromFront,
+     content:req.body.contentFromFront,
+     description:req.body.descriptionFromFront,
+     img:req.body.img,
+     token:req.body.token,
+  })
+
+  await newArticleInWishlist.save();
+
+  res.json({success:true})
 })
 
 module.exports = router;

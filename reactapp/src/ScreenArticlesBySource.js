@@ -21,7 +21,6 @@ function ScreenArticlesBySource(props) {
     const findArticles = async() => {
       const data = await fetch(`https://newsapi.org/v2/top-headlines?sources=${id}&apiKey=ec644454a14444cf95016e0f7ace2505`)
       const body = await data.json()
-      console.log(body)
       setArticleList(body.articles)
     }
 
@@ -36,15 +35,27 @@ function ScreenArticlesBySource(props) {
   }
 
   var handleOk = e => {
-    console.log(e)
     setVisible(false)
   }
 
   var handleCancel = e => {
-    console.log(e)
     setVisible(false)
   }
 
+  const addArticleInWishlist = async (article) => {
+
+    const requeteAddArticleToWishlist = await fetch('/add-article-in-wishlist', {
+      method:'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: `titleFromFront=${article.title}&descriptionFromFront=${article.description}&contentFromFront=${article.content}&img=${article.urlToImage}&token=${props.token}`
+    })
+
+    props.addToWishList(article);
+    const dataArticle = await requeteAddArticleToWishlist.json();
+    console.log(dataArticle)
+  }
+
+  {console.log(props)}
   return (
     <div>
 
@@ -72,7 +83,7 @@ function ScreenArticlesBySource(props) {
                   }
                   actions={[
                       <Icon type="read" key="ellipsis2" onClick={() => showModal(article.title,article.content)} />,
-                      <Icon type="like" key="ellipsis" onClick={()=> {props.addToWishList(article)}} />
+                      <Icon type="like" key="ellipsis" onClick={() => addArticleInWishlist(article)} />
                   ]}
                   >
 
@@ -107,6 +118,11 @@ function ScreenArticlesBySource(props) {
   );
 }
 
+function mapStateToProps(state){
+  console.log(state)
+  return{token:state.token}
+}
+
 function mapDispatchToProps(dispatch){
   return {
     addToWishList: function(article){
@@ -118,6 +134,6 @@ function mapDispatchToProps(dispatch){
 }
 
 export default connect(
-  null,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(ScreenArticlesBySource)
