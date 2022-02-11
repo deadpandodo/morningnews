@@ -62,7 +62,7 @@ function ScreenSource(props) {
 }
 
 function mapStateToProps(state){
-  return {selectedLang: state.selectedLang}
+  return {selectedLang: state.selectedLang, token:state.token}
 }
 
 function mapDispatchToProps(dispatch){

@@ -21,7 +21,6 @@ function ScreenArticlesBySource(props) {
     const findArticles = async() => {
       const data = await fetch(`https://newsapi.org/v2/top-headlines?sources=${id}&apiKey=ec644454a14444cf95016e0f7ace2505`)
       const body = await data.json()
-      console.log(body)
       setArticleList(body.articles)
     }
 
@@ -36,13 +35,20 @@ function ScreenArticlesBySource(props) {
   }
 
   var handleOk = e => {
-    console.log(e)
     setVisible(false)
   }
 
   var handleCancel = e => {
-    console.log(e)
     setVisible(false)
+  }
+
+  const addArticleInWishlist = async () => {
+    // fetch post bdd de l'article avec son title / description / contenu / image + token
+    const requeteAddArticleToWishlist = {
+      method:'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: `titleFromFront=${signUpUsername}&emailFromFront=${signUpEmail}&passwordFromFront=${signUpPassword}`
+    }
   }
 
   return (
@@ -119,5 +125,5 @@ function mapDispatchToProps(dispatch){
 
 export default connect(
   null,
-  mapDispatchToProps
+    mapDispatchToProps
 )(ScreenArticlesBySource)
