@@ -42,15 +42,20 @@ function ScreenArticlesBySource(props) {
     setVisible(false)
   }
 
-  const addArticleInWishlist = async () => {
-    // fetch post bdd de l'article avec son title / description / contenu / image + token
-    const requeteAddArticleToWishlist = {
+  const addArticleInWishlist = async (article) => {
+
+    const requeteAddArticleToWishlist = await fetch('/add-article-in-wishlist', {
       method:'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: `titleFromFront=${signUpUsername}&emailFromFront=${signUpEmail}&passwordFromFront=${signUpPassword}`
-    }
+      body: `titleFromFront=${article.title}&descriptionFromFront=${article.description}&contentFromFront=${article.content}&img=${article.urlToImage}&token=${props.token}`
+    })
+
+    props.addToWishList(article);
+    const dataArticle = await requeteAddArticleToWishlist.json();
+    console.log(dataArticle)
   }
 
+  {console.log(props)}
   return (
     <div>
 
@@ -78,7 +83,7 @@ function ScreenArticlesBySource(props) {
                   }
                   actions={[
                       <Icon type="read" key="ellipsis2" onClick={() => showModal(article.title,article.content)} />,
-                      <Icon type="like" key="ellipsis" onClick={()=> {props.addToWishList(article)}} />
+                      <Icon type="like" key="ellipsis" onClick={() => addArticleInWishlist(article)} />
                   ]}
                   >
 
@@ -113,6 +118,11 @@ function ScreenArticlesBySource(props) {
   );
 }
 
+function mapStateToProps(state){
+  console.log(state)
+  return{token:state.token}
+}
+
 function mapDispatchToProps(dispatch){
   return {
     addToWishList: function(article){
@@ -124,6 +134,6 @@ function mapDispatchToProps(dispatch){
 }
 
 export default connect(
-  null,
+    mapStateToProps,
     mapDispatchToProps
 )(ScreenArticlesBySource)

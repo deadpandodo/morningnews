@@ -98,12 +98,11 @@ router.post('/sign-in', async function(req,res,next){
 
 
 router.post('/add-article-in-wishlist',async function(req,res,next){
-
   let newArticleInWishlist = await wishListArticleModel({
-     title:req.body.title,
-     content:req.body.content,
-     description:req.body.description,
-     img:req.body.image,
+     title:req.body.titleFromFront,
+     content:req.body.contentFromFront,
+     description:req.body.descriptionFromFront,
+     img:req.body.img,
      token:req.body.token,
   })
 
