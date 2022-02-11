@@ -45,10 +45,7 @@ router.post('/sign-up', async function(req,res,next){
       token: uid2(32),
       lastSelectedLanguage: "fr",
     })
-<<<<<<< HEAD
-=======
 
->>>>>>> 87e6528abd504f7074898840e6a16daacdc9921e
     saveUser = await newUser.save()
 
 
@@ -123,14 +120,16 @@ router.put('/update-language', async function(req,res,next){
 
 })
 
-
 router.post('/add-article-in-wishlist',async function(req,res,next){
+
+  console.log(req.body)
   let newArticleInWishlist = await wishListArticleModel({
      title:req.body.titleFromFront,
      content:req.body.contentFromFront,
      description:req.body.descriptionFromFront,
      img:req.body.img,
      token:req.body.token,
+     language:req.body.language
   })
 
   await newArticleInWishlist.save();

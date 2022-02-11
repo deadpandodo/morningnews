@@ -5,7 +5,8 @@ const wishListArticleSchema = mongoose.Schema({
     content: String,
     description: String,
     img: String,
-    token:String
+    token:String,
+    language:String
 })
 
 const wishListArticleModel = mongoose.model('wishListArticle', wishListArticleSchema)

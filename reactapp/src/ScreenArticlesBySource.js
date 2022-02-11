@@ -47,7 +47,7 @@ function ScreenArticlesBySource(props) {
     const requeteAddArticleToWishlist = await fetch('/add-article-in-wishlist', {
       method:'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: `titleFromFront=${article.title}&descriptionFromFront=${article.description}&contentFromFront=${article.content}&img=${article.urlToImage}&token=${props.token}`
+      body: `titleFromFront=${article.title}&descriptionFromFront=${article.description}&contentFromFront=${article.content}&img=${article.urlToImage}&token=${props.token}&language=${props.selectedLang}`
     })
 
     props.addToWishList(article);
@@ -120,7 +120,7 @@ function ScreenArticlesBySource(props) {
 
 function mapStateToProps(state){
   console.log(state)
-  return{token:state.token}
+  return{token:state.token, selectedLang:state.selectedLang}
 }
 
 function mapDispatchToProps(dispatch){
