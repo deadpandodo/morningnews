@@ -111,4 +111,10 @@ router.post('/add-article-in-wishlist',async function(req,res,next){
   res.json({success:true})
 })
 
+router.get('/screenmyarticles', async function(req,res,next){
+  let articleInWishlist = await wishListArticleModel.find();
+
+  res.json({allArticle:articleInWishlist})
+})
+
 module.exports = router;

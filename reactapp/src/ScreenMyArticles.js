@@ -1,13 +1,33 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import { Card, Icon, Modal} from 'antd';
 import Nav from './Nav'
 
 import {connect} from 'react-redux'
-
 const { Meta } = Card;
 
+
+
 function ScreenMyArticles(props) {
+
+  const [dataArticle,setDataArticle] = useState([]);
+
+  useEffect(() => {
+
+    const fetchData = async() => {
+
+      const data = await fetch('/screenmyarticles')
+      const body = await data.json()
+      setDataArticle(body.allArticle)
+    }
+
+    props.allWishList(dataArticle);
+    fetchData()
+  }, [])
+
+
+
+
   const [visible, setVisible] = useState(false)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
@@ -33,6 +53,13 @@ function ScreenMyArticles(props) {
   if(props.myArticles == 0){
     noArticles = <div style={{marginTop:"30px"}}>No Articles</div>
   }
+
+
+function deleteArticleInWishlist(article){
+  props.deleteToWishList(article.title)
+}
+
+console.log(dataArticle)
 
   return (
     <div>
@@ -65,7 +92,7 @@ function ScreenMyArticles(props) {
                     }
                     actions={[
                         <Icon type="read" key="ellipsis2" onClick={() => showModal(article.title,article.content)} />,
-                        <Icon type="delete" key="ellipsis" onClick={() => props.deleteToWishList(article.title)} />
+                        <Icon type="delete" key="ellipsis" onClick={() => deleteArticleInWishlist(article.title,article.content) } />
                     ]}
                     >
 
@@ -111,6 +138,11 @@ function mapDispatchToProps(dispatch){
     deleteToWishList: function(articleTitle){
       dispatch({type: 'deleteArticle',
         title: articleTitle
+      })
+     },
+    allWishList: function(dataArticle){
+      dispatch({type:'allArticle',
+        allArticle:dataArticle
       })
     }
   }

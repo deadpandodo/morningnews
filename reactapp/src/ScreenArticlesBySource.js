@@ -51,11 +51,8 @@ function ScreenArticlesBySource(props) {
     })
 
     props.addToWishList(article);
-    const dataArticle = await requeteAddArticleToWishlist.json();
-    console.log(dataArticle)
   }
 
-  {console.log(props)}
   return (
     <div>
 
@@ -119,7 +116,6 @@ function ScreenArticlesBySource(props) {
 }
 
 function mapStateToProps(state){
-  console.log(state)
   return{token:state.token}
 }
 

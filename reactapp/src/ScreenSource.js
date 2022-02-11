@@ -11,7 +11,6 @@ function ScreenSource(props) {
   const [selectedLang, setSelectedLang] = useState(props.selectedLang)
 
 
-    {console.log(props)}
 
   useEffect(() => {
     const APIResultsLoading = async() => {

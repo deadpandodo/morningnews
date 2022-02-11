@@ -14,7 +14,7 @@ export default function(wishList = [], action){
         if(!findArticle){
             wishListCopy.push(action.articleLiked)
         }
-        
+
         return wishListCopy
     } else if(action.type == 'deleteArticle'){
         var wishListCopy = [...wishList]
@@ -30,8 +30,14 @@ export default function(wishList = [], action){
         }
 
         return wishListCopy
-        
-    } else {
+
+    }else if(action.type == 'allArticle'){
+        let wishListCopy = [...wishList];
+        console.log(action)
+        return wishListCopy
+    }
+
+    else {
         return wishList
     }
 }
