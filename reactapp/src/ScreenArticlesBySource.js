@@ -26,7 +26,7 @@ function ScreenArticlesBySource(props) {
     }
 
     findArticles()
-  },[])
+  },[id])
 
   var showModal = (title, content) => {
     setVisible(true)

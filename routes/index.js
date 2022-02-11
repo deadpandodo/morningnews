@@ -1,5 +1,5 @@
 
-console.log("Hello Vasco")
+
 
 var express = require('express');
 var router = express.Router();
@@ -16,6 +16,7 @@ router.post('/sign-up', async function(req,res,next){
   var result = false
   var saveUser = null
   var token = null
+  var languageSelected = "fr"
 
   const data = await userModel.findOne({
     email: req.body.emailFromFront
@@ -41,19 +42,20 @@ router.post('/sign-up', async function(req,res,next){
       email: req.body.emailFromFront,
       password: hash,
       token: uid2(32),
+      lastSelectedLanguage: "fr",
     })
-  
     saveUser = await newUser.save()
   
     
     if(saveUser){
       result = true
       token = saveUser.token
+      languageSelected = saveUser.languageSelected
     }
   }
   
 
-  res.json({result, saveUser, error, token})
+  res.json({result, saveUser, error, token, languageSelected})
 })
 
 router.post('/sign-in', async function(req,res,next){
@@ -62,6 +64,7 @@ router.post('/sign-in', async function(req,res,next){
   var user = null
   var error = []
   var token = null
+  var languageSelected = "fr"
   
   if(req.body.emailFromFront == ''
   || req.body.passwordFromFront == ''
@@ -79,6 +82,7 @@ router.post('/sign-in', async function(req,res,next){
       if(bcrypt.compareSync(req.body.passwordFromFront, user.password)){
         result = true
         token = user.token
+        languageSelected = user.languageSelected
       } else {
         result = false
         error.push('mot de passe incorrect')
@@ -90,8 +94,26 @@ router.post('/sign-in', async function(req,res,next){
   }
   
 
-  res.json({result, user, error, token})
+  res.json({result, user, error, token, languageSelected})
 
+
+})
+
+router.put('/update-language', async function(req,res,next){
+
+  
+  var token = req.body.token
+  var language = req.body.lang
+  console.log(token)
+  console.log(language)
+  
+  var update_result = await userModel.updateOne(
+    { token: token},
+    { lastSelectedLanguage: language }
+  );
+  console.log(update_result)
+  
+  res.json({update_result})
 
 })
 

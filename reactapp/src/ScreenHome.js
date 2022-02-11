@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 import {Input,Button} from 'antd';
-import {Link, Redirect} from 'react-router-dom'
+import { Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 function ScreenHome(props) {
@@ -28,7 +28,7 @@ function ScreenHome(props) {
 
     const body = await data.json()
 
-    if(body.result == true){
+    if(body.result === true){
       props.addToken(body.token)
       setUserExists(true)
       
@@ -47,9 +47,10 @@ function ScreenHome(props) {
 
     const body = await data.json()
 
-    if(body.result == true){
+    if(body.result === true){
       props.addToken(body.token)
       setUserExists(true)
+      props.changeLang(body.token)
       
     }  else {
       setErrorsSignin(body.error)
@@ -110,10 +111,15 @@ function ScreenHome(props) {
 function mapDispatchToProps(dispatch){
   return {
     addToken: function(token){
-      dispatch({type: 'addToken', token: token})
+      dispatch({type: 'addToken', token: token})},
+
+    changeLang: function(selectedLang){
+      dispatch({type: 'changeLang', selectedLang: selectedLang})
     }
   }
 }
+
+
 
 export default connect(
   null,

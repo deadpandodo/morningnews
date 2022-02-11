@@ -1,1 +1,4 @@
 node_modules
+.gitignore
+reactapp/package.json
+./reactapp/node_modules
