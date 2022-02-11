@@ -8,6 +8,7 @@ var uid2 = require('uid2')
 var bcrypt = require('bcrypt');
 
 var userModel = require('../models/users')
+var wishListArticleModel = require('../models/article')
 
 
 router.post('/sign-up', async function(req,res,next){
@@ -44,16 +45,20 @@ router.post('/sign-up', async function(req,res,next){
       token: uid2(32),
       lastSelectedLanguage: "fr",
     })
+<<<<<<< HEAD
+=======
+
+>>>>>>> 87e6528abd504f7074898840e6a16daacdc9921e
     saveUser = await newUser.save()
-  
-    
+
+
     if(saveUser){
       result = true
       token = saveUser.token
       languageSelected = saveUser.languageSelected
     }
   }
-  
+
 
   res.json({result, saveUser, error, token, languageSelected})
 })
@@ -66,6 +71,7 @@ router.post('/sign-in', async function(req,res,next){
   var token = null
   var languageSelected = "fr"
   
+
   if(req.body.emailFromFront == ''
   || req.body.passwordFromFront == ''
   ){
@@ -76,8 +82,8 @@ router.post('/sign-in', async function(req,res,next){
     user = await userModel.findOne({
       email: req.body.emailFromFront,
     })
-  
-    
+
+
     if(user){
       if(bcrypt.compareSync(req.body.passwordFromFront, user.password)){
         result = true
@@ -87,12 +93,12 @@ router.post('/sign-in', async function(req,res,next){
         result = false
         error.push('mot de passe incorrect')
       }
-      
+
     } else {
       error.push('email incorrect')
     }
   }
-  
+
 
   res.json({result, user, error, token, languageSelected})
 
@@ -115,6 +121,21 @@ router.put('/update-language', async function(req,res,next){
   
   res.json({update_result})
 
+})
+
+
+router.post('/add-article-in-wishlist',async function(req,res,next){
+  let newArticleInWishlist = await wishListArticleModel({
+     title:req.body.titleFromFront,
+     content:req.body.contentFromFront,
+     description:req.body.descriptionFromFront,
+     img:req.body.img,
+     token:req.body.token,
+  })
+
+  await newArticleInWishlist.save();
+
+  res.json({success:true})
 })
 
 module.exports = router;

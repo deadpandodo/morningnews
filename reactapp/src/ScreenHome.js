@@ -19,7 +19,7 @@ function ScreenHome(props) {
   const [listErrorsSignup, setErrorsSignup] = useState([])
 
   var handleSubmitSignup = async () => {
-    
+
     const data = await fetch('/sign-up', {
       method: 'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -31,14 +31,13 @@ function ScreenHome(props) {
     if(body.result === true){
       props.addToken(body.token)
       setUserExists(true)
-      
     } else {
       setErrorsSignup(body.error)
     }
   }
 
   var handleSubmitSignin = async () => {
- 
+
     const data = await fetch('/sign-in', {
       method: 'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -50,7 +49,7 @@ function ScreenHome(props) {
     if(body.result === true){
       props.addToken(body.token)
       setUserExists(true)
-      props.changeLang(body.token)
+      props.changeLang(body.languageSelected)
       
     }  else {
       setErrorsSignin(body.error)
@@ -69,7 +68,7 @@ function ScreenHome(props) {
     return(<p>{error}</p>)
   })
 
-  
+
 
   return (
     <div className="Login-page" >
@@ -77,11 +76,11 @@ function ScreenHome(props) {
           {/* SIGN-IN */}
 
           <div className="Sign">
-                  
+
             <Input onChange={(e) => setSignInEmail(e.target.value)} className="Login-input" placeholder="email" />
 
             <Input.Password onChange={(e) => setSignInPassword(e.target.value)} className="Login-input" placeholder="password" />
-            
+
             {tabErrorsSignin}
 
             <Button onClick={() => handleSubmitSignin()}  style={{width:'80px'}} type="primary">Sign-in</Button>
@@ -91,13 +90,13 @@ function ScreenHome(props) {
           {/* SIGN-UP */}
 
           <div className="Sign">
-                  
+
             <Input onChange={(e) => setSignUpUsername(e.target.value)} className="Login-input" placeholder="username" />
 
             <Input onChange={(e) => setSignUpEmail(e.target.value)} className="Login-input" placeholder="email" />
 
             <Input.Password onChange={(e) => setSignUpPassword(e.target.value)} className="Login-input" placeholder="password" />
-      
+
             {tabErrorsSignup}
 
             <Button onClick={() => handleSubmitSignup()} style={{width:'80px'}} type="primary">Sign-up</Button>
@@ -107,6 +106,8 @@ function ScreenHome(props) {
       </div>
   );
 }
+
+
 
 function mapDispatchToProps(dispatch){
   return {

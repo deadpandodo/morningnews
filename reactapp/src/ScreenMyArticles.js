@@ -22,12 +22,10 @@ function ScreenMyArticles(props) {
   }
 
   var handleOk = e => {
-    console.log(e)
     setVisible(false)
   }
 
   var handleCancel = e => {
-    console.log(e)
     setVisible(false)
   }
 
@@ -38,7 +36,7 @@ function ScreenMyArticles(props) {
 
   return (
     <div>
-         
+
             <Nav/>
 
             <div className="Banner"/>
@@ -46,16 +44,16 @@ function ScreenMyArticles(props) {
             {noArticles}
 
             <div className="Card">
-    
+
 
             {props.myArticles.map((article,i) => (
                 <div key={i} style={{display:'flex',justifyContent:'center'}}>
 
                   <Card
-                    
-                    style={{ 
-                    width: 300, 
-                    margin:'15px', 
+
+                    style={{
+                    width: 300,
+                    margin:'15px',
                     display:'flex',
                     flexDirection: 'column',
                     justifyContent:'space-between' }}
@@ -92,13 +90,13 @@ function ScreenMyArticles(props) {
 
 
 
-       
 
-                
+
+
 
              </div>
-      
- 
+
+
 
       </div>
   );
