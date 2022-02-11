@@ -1,3 +1,6 @@
+
+console.log("Hello Vasco")
+
 var express = require('express');
 var router = express.Router();
 
