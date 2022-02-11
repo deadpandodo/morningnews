@@ -15,13 +15,13 @@ function ScreenSource(props) {
     const APIResultsLoading = async() => {
       var langue = 'fr'
       var country = 'fr'
-        
+
       if(selectedLang == 'en'){
         var langue = 'en'
         var country = 'us'
       }
       props.changeLang(selectedLang)
-      const data = await fetch(`https://newsapi.org/v2/sources?language=${langue}&country=${country}&apiKey=b32c8b844d1243b1a7998d8228910f50`)
+      const data = await fetch(`https://newsapi.org/v2/sources?language=${langue}&country=${country}&apiKey=ec644454a14444cf95016e0f7ace2505`)
       const body = await data.json()
       setSourceList(body.sources)
     }
@@ -32,14 +32,14 @@ function ScreenSource(props) {
   return (
     <div>
         <Nav/>
-       
+
        <div style={{display:'flex', justifyContent:'center', alignItems:'center'}} className="Banner">
           <img style={{width:'40px', margin:'10px',cursor:'pointer'}} src='/images/fr.png' onClick={() => setSelectedLang('fr')} />
-          <img style={{width:'40px', margin:'10px',cursor:'pointer'}} src='/images/uk.png' onClick={() => setSelectedLang('en')} /> 
+          <img style={{width:'40px', margin:'10px',cursor:'pointer'}} src='/images/uk.png' onClick={() => setSelectedLang('en')} />
         </div>
 
        <div className="HomeThemes">
-          
+
               <List
                   itemLayout="horizontal"
                   dataSource={sourceList}
@@ -56,7 +56,7 @@ function ScreenSource(props) {
 
 
           </div>
-                 
+
       </div>
   );
 }
